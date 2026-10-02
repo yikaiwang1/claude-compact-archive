@@ -1,0 +1,18 @@
+{
+  "name": "claude-compact-archive",
+  "owner": {
+    "name": "Yikai Wang",
+    "url": "https://github.com/yikaiwang1"
+  },
+  "metadata": {
+    "description": "Cost-saving compaction setup for Claude Code: transcript archiving before compaction plus a setup skill"
+  },
+  "plugins": [
+    {
+      "name": "compact-archive",
+      "version": "1.0.0",
+      "source": "./plugins/compact-archive",
+      "description": "Archive every transcript before compaction (PreCompact hook) and set up early, well-instructed compaction"
+    }
+  ]
+}

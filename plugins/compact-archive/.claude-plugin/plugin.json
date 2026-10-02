@@ -1,0 +1,13 @@
+{
+  "name": "compact-archive",
+  "version": "1.0.0",
+  "description": "Compact early to save cost without losing anything: archive every transcript before compaction (PreCompact hook) and a skill that sets a smaller auto-compact window and adds compaction rules to CLAUDE.md.",
+  "author": {
+    "name": "Yikai Wang",
+    "url": "https://github.com/yikaiwang1"
+  },
+  "homepage": "https://github.com/yikaiwang1/claude-compact-archive",
+  "repository": "https://github.com/yikaiwang1/claude-compact-archive",
+  "license": "MIT",
+  "keywords": ["compaction", "compact", "autocompact", "transcripts", "archive", "cost", "context"]
+}

@@ -1,0 +1,17 @@
+{
+  "description": "Archive the session transcript before every compaction (manual /compact or auto-compaction)",
+  "hooks": {
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/precompact_archive.sh\" 2>/dev/null || true",
+            "timeout": 120,
+            "statusMessage": "Archiving transcript"
+          }
+        ]
+      }
+    ]
+  }
+}
