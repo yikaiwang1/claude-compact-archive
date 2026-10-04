@@ -26,7 +26,7 @@ import re
 import sys
 
 DEFAULT_WINDOWS = '300k,400k,500k'
-DEFAULT_RECOMMENDATION = '400k'
+DEFAULT_RECOMMENDATION = '500k'
 BUFFER = 33_000
 POST = 97_000
 CTX_BUCKETS = [(150, '<150k'), (270, '150–270k'), (500, '270–500k'), (800, '500–800k'), (None, '>=800k')]
@@ -876,7 +876,7 @@ def recommend(cands, proj, cost, ctrl, exchange):
     if not have_a and not have_b:
         return dict(window=DEFAULT_RECOMMENDATION, default=True, steps=[], rests_on=[],
                     reason='Too little data for the rule (no incident projection with costs, no controlled recall); '
-                           'the default 400k is recommended')
+                           f'the default {DEFAULT_RECOMMENDATION} is recommended')
     cur, steps = cands[0], []
     for i in range(1, len(cands)):
         nxt = cands[i]
@@ -910,7 +910,8 @@ def recommend(cands, proj, cost, ctrl, exchange):
     evaluated = any((s['a'] and s['a']['ci']) or s['b'] for s in steps)
     if not evaluated:
         return dict(window=DEFAULT_RECOMMENDATION, default=True, steps=steps, rests_on=[],
-                    reason='No step of the rule could be evaluated with the data available; the default 400k is recommended')
+                    reason='No step of the rule could be evaluated with the data available; '
+                           f'the default {DEFAULT_RECOMMENDATION} is recommended')
     rests = []
     if any(s['b'] for s in steps):
         rests.append('projected incidents and cost')
@@ -1001,7 +1002,7 @@ def report(R, args):
              f"the next window with data is higher than at the current window (or, if the current window has no data, the "
              f"nearest smaller one with data) by more than 5 percentage points with a 95% CI above 0, or (b) the step removes "
              f"at least {args.exchange:.2f} projected moderate or serious problems per 100 assistant messages per +10% of cost "
-             f"(cost increase relative to the current window's cost). Stop otherwise. Without enough data the default is 400k. "
+             f"(cost increase relative to the current window's cost). Stop otherwise. Without enough data the default is {DEFAULT_RECOMMENDATION}. "
              + ("Incident rates are pooled over the audited windows unless a Fisher exact test on compactions with at least "
                 "one moderate or serious problem finds a difference between the two largest audited windows (p < 0.05); "
                 "then each window takes the rate of the nearest audited window.\n" if args.rate == 'auto' else

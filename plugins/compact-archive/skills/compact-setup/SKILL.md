@@ -1,6 +1,6 @@
 ---
 name: compact-setup
-description: Set up cost-saving compaction in Claude Code. Checks that transcripts are archived before every compaction, sets a smaller auto-compact window (400k tokens by default, or a value chosen by an optional smart analysis of the user's own sessions that measures cost and output quality), and adds "Compact instructions" to CLAUDE.md so summaries keep recent work in detail and drop dead ends. Use when the user asks about compaction, /compact, /autocompact, auto-compact thresholds or windows, context or token cost in long sessions, whether compacting earlier hurts quality, or archiving or keeping old transcripts.
+description: Set up cost-saving compaction in Claude Code. Checks that transcripts are archived before every compaction, sets a smaller auto-compact window (500k tokens by default, or a value chosen by an optional smart analysis of the user's own sessions that measures cost and output quality), and adds "Compact instructions" to CLAUDE.md so summaries keep recent work in detail and drop dead ends. Use when the user asks about compaction, /compact, /autocompact, auto-compact thresholds or windows, context or token cost in long sessions, whether compacting earlier hurts quality, or archiving or keeping old transcripts.
 ---
 
 # Compact setup
@@ -56,7 +56,7 @@ Work through the steps below with the user. Ask before changing any file, and sh
 
 ## Step 2: set the auto-compact window
 
-The user sets it with `/autocompact <tokens>`, for example `/autocompact 400k`; `/autocompact auto` restores the
+The user sets it with `/autocompact <tokens>`, for example `/autocompact 500k`; `/autocompact auto` restores the
 default. The value is saved as `autoCompactWindow` in `~/.claude/settings.json` and applies to every session (the
 environment variable `CLAUDE_CODE_AUTO_COMPACT_WINDOW` overrides it). You cannot run slash commands yourself, so give
 the user the command. If they prefer, you may edit `autoCompactWindow` in the settings file instead, after reading it
@@ -76,8 +76,9 @@ is not set, find the folder with `find ~/.claude/plugins -path '*compact-setup/a
 **2b. Ask the user** (AskUserQuestion, one question) how to choose the window. Put the numbers from 2a into the option
 descriptions:
 
-- **Use 400k (Recommended)**: no analysis, nothing spent. 400k is the author's choice after testing it on their own
-  sessions (below).
+- **Use 500k (Recommended)**: no analysis, nothing spent. 500k is what the analysis picked on the author's own
+  sessions (below). If the user cares more about cost, 400k (about 8% cheaper) or 300k (about 15% cheaper) are
+  reasonable; they can type one under "Other".
 - **Smart analysis, full**: measures cost and output quality on the user's own sessions and recommends a window. Give
   the estimate from 2a: about N agents, X–Y minutes, about T million tokens processed (mostly cache reads), roughly
   $A–B at API list prices. On a subscription this uses plan limits: in the author's run a full analysis took a large
@@ -85,10 +86,10 @@ descriptions:
 - **Smart analysis, lite**: the same method with fewer samples (estimate from 2a); quicker, less precise.
 
 If 2a says there is too little data (fewer than 4 automatic compactions and no long cycle), do not offer the analysis:
-say so and suggest 400k. If the user only wants the cost side, `analysis/cost_sim.py` (seconds, no tokens) prints the
+say so and suggest 500k. If the user only wants the cost side, `analysis/cost_sim.py` (seconds, no tokens) prints the
 saving at each window; it cannot judge quality.
 
-**2c.** With "Use 400k", give the user `/autocompact 400k` and go on to Step 3. With a smart analysis, follow
+**2c.** With "Use 500k", give the user `/autocompact 500k` and go on to Step 3. With a smart analysis, follow
 [smart-analysis.md](smart-analysis.md), show its recommendation and table, and give the user the matching
 `/autocompact` command. The user decides; do not set the window yourself unless they ask you to.
 
@@ -103,7 +104,7 @@ What the author found (1M-context Opus, long research and admin sessions, Octobe
 - Going from 300k to 400k costs about 9% more and removes about 40% of those problems; going on to 500k costs about
   9% more again for less than half that gain. A second run of the finished analysis, after correcting for real
   summaries keeping less than simulated ones, found 500k keeping about 7 points more key facts than 400k, so its rule
-  picks 500k for the author. 400k is the no-analysis default as the middle ground.
+  picks 500k for the author. Hence 500k as the default.
 
 ## Step 3: add Compact instructions to CLAUDE.md
 

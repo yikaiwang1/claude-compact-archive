@@ -10,7 +10,7 @@
   "plugins": [
     {
       "name": "compact-archive",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "source": "./plugins/compact-archive",
       "description": "Archive every transcript before compaction (PreCompact hook) and set up early, well-instructed compaction, with an optional smart analysis that picks the window from your own sessions"
     }

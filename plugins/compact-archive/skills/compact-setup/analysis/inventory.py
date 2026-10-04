@@ -688,7 +688,7 @@ def main(argv=None):
             print('        skipped: %s' % s)
     if est['full']['too_little_data']:
         print('Too little data for the smart analysis (fewer than 4 automatic compactions and no long cycle). '
-              'Recommended: the default 400k (/autocompact 400k).')
+              'Recommended: the default 500k (/autocompact 500k).')
     print('Wrote %s' % path)
     return 0
 

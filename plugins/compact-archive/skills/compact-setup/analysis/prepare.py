@@ -842,7 +842,7 @@ def main():
     n_audit = sum(len(g) for g in args['audit']['groups'])
     if not n_audit and not cycles:
         print('prepare: too little data for a smart analysis (no audit and no controlled cycle); '
-              'the default window 400k is recommended.')
+              'the default window 500k is recommended.')
     est = estimate(n_audit, len(args['audit']['groups']), len(batches), cycles, len(cal))
     if est['agents']:
         print(f"estimate: up to {est['agents']} agents, about {est['tokens_M'][0]}-{est['tokens_M'][1]}M tokens processed "

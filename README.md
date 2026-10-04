@@ -8,7 +8,7 @@ and the summary may drop the wrong details. This plugin addresses both:
 
 - **A PreCompact hook** archives the transcript before every compaction, manual (`/compact`) or automatic, so the
   full history is always kept.
-- **A setup skill** (`compact-setup`) walks Claude through setting a smaller auto-compact window (400k tokens by
+- **A setup skill** (`compact-setup`) walks Claude through setting a smaller auto-compact window (500k tokens by
   default, or a value chosen by an optional *smart analysis* of your own sessions), adding *Compact instructions* to
   `CLAUDE.md` so summaries keep the recent work in detail, and configuring the archive folder.
 
@@ -28,8 +28,24 @@ claude plugin marketplace add yikaiwang1/claude-compact-archive
 claude plugin install compact-archive@claude-compact-archive
 ```
 
+In the Claude desktop app, typing `/plugin …` in a Code session opens the app's own plugin window instead of running
+the command; use the shell commands there.
+
 The hook is active in new sessions (or after `/reload-plugins`). Then ask Claude to *"set up compaction"*, or run
 the skill directly with `/compact-archive:compact-setup`.
+
+## Update
+
+From a shell:
+
+```bash
+claude plugin marketplace update claude-compact-archive
+claude plugin update compact-archive@claude-compact-archive
+```
+
+The first command fetches the latest version from GitHub, the second installs it. The new version is used from the
+next session on (or after restarting Claude Code). In the Claude desktop app, run these in a terminal (or ask Claude
+to run them), not as `/plugin …` in a Code session.
 
 ## What gets archived
 
@@ -102,11 +118,11 @@ Set these in the `env` block of `~/.claude/settings.json`:
 
 ## Choosing the auto-compact window
 
-`/autocompact 400k` sets it (saved as `autoCompactWindow` in `~/.claude/settings.json`); `/autocompact auto`
+`/autocompact 500k` sets it (saved as `autoCompactWindow` in `~/.claude/settings.json`); `/autocompact auto`
 restores the default. When you run the skill, Claude first takes stock of your transcripts (a few seconds, no tokens)
 and then asks you to choose:
 
-- **Use 400k.** The default, with no analysis.
+- **Use 500k.** The default, with no analysis.
 - **Smart analysis** (`full` or `lite`). Claude measures cost *and* output quality on your own sessions and
   recommends a window. Before asking, it shows an estimate for your data: number of agents, minutes, tokens and the
   API-equivalent cost. The full analysis is large: in the author's run it processed roughly 200–300 million tokens
@@ -136,8 +152,8 @@ What the author found on their own long sessions with a 1M-context model (Octobe
 - A second, smaller run of the finished tool (8 compactions, 2 long cycles, 400k simulated as well) found raw recall
   equal at 300k, 400k and 500k. Real summaries keep less than simulated ones, though, and after correcting for that,
   500k kept about 7 points more key facts than 400k. On the author's data the analysis's rule therefore picks 500k.
-- 400k is the no-analysis default as the middle ground between cost and quality. If quality matters more to you than
-  a further ~8% of cost, use 500k or run the analysis.
+- That is why 500k is the no-analysis default. If cost matters more to you, 400k costs about 8% less and 300k about
+  15% less; run the analysis to decide on your own sessions.
 
 The cost side alone takes seconds and no tokens:
 `python3 plugins/compact-archive/skills/compact-setup/analysis/cost_sim.py --inventory <inventory.json>` (after

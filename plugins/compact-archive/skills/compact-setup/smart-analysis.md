@@ -78,7 +78,7 @@ Use one work folder for everything, created in Step 2a: `OUT="${COMPACT_ANALYSIS
    and roughly how long it will take. Do not poll it. If it stops (for example at a usage limit), resume it later
    with the same `scriptPath` and `resumeFromRunId`. If the Workflow tool is not available in this session, say so;
    offer to run the same steps with ordinary subagents following `workflow.js`, which is slower, or to stop here and
-   use 400k.
+   use 500k.
 
 7. Analysis:
 
