@@ -127,7 +127,8 @@ if [ "$EXTRAS" = "1" ] && [ -d "$sessdir" ]; then
      && [ -z "$(find "$sessdir" -newer "$oldx" 2>/dev/null | head -1)" ]; then
     msg="$msg unchanged"
   else
-    tar -czf "$tmp2" -C "$(dirname "$sessdir")" "$(basename "$sessdir")" 2>/dev/null
+    # Write the tarball through stdout: GNU tar on Windows (Git Bash) reads "C:/..." in -f as a remote host.
+    tar -czf - -C "$(dirname "$sessdir")" "$(basename "$sessdir")" > "$tmp2" 2>/dev/null
     rc=$?
     # GNU tar exits 1 when a file changed while being read (e.g. a running subagent); the archive is usable.
     if [ $rc -eq 0 ] || { [ $rc -eq 1 ] && tar --version 2>/dev/null | grep -q GNU; }; then
