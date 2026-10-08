@@ -17,14 +17,14 @@ and the summary may drop the wrong details. This plugin addresses both:
 In Claude Code:
 
 ```text
-/plugin marketplace add yikaiwang1/claude-compact-archive
+/plugin marketplace add yikaiwangec/claude-compact-archive
 /plugin install compact-archive@claude-compact-archive
 ```
 
 or from a shell:
 
 ```bash
-claude plugin marketplace add yikaiwang1/claude-compact-archive
+claude plugin marketplace add yikaiwangec/claude-compact-archive
 claude plugin install compact-archive@claude-compact-archive
 ```
 

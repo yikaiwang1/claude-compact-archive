@@ -2,7 +2,7 @@
   "name": "claude-compact-archive",
   "owner": {
     "name": "Yikai Wang",
-    "url": "https://github.com/yikaiwang1"
+    "url": "https://github.com/yikaiwangec"
   },
   "metadata": {
     "description": "Cost-saving compaction setup for Claude Code: transcript archiving before compaction plus a setup skill"
